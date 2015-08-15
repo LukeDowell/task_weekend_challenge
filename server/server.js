@@ -1,0 +1,63 @@
+/**
+ * Created by Luke on 8/14/2015.
+ */
+var Hapi = require('hapi');
+var Good = require('good');
+var path = require('path');
+
+var server = new Hapi.Server({
+    connections: {
+        routes: {
+            files: {
+                relativeTo: path.join(__dirname, "public")
+            }
+        }
+    }
+});
+
+server.connection({
+    host: 'localhost',
+    port: (process.env.PORT || 5000)
+});
+
+server.route({
+    method: 'GET',
+    path: '{path*}',
+    directory: {
+        listing: false,
+        index: true
+    }
+});
+
+//Order doesn't matter, Hapi will sort them
+server.route({
+    method: 'GET',
+    path: '/{name}',
+    handler: function(request, reply) {
+        //encodeURIComponent prevents user injection attacks. Don't render provided data without output encoding first!
+        server.log('New friend', req.params.name);
+        reply('Hallo, ' + encodeURIComponent(request.params.name) + '!');
+    }
+});
+
+//Load Good and launch server
+server.register({
+    register: Good,
+    options: {
+        reporters: [{
+            reporter: require('good-console'),
+            events: {
+                response: '*',
+                log: '*'
+            }
+        }]
+    }
+}, function(err) {
+    if(err) {
+        throw err;
+    }
+
+    server.start(function() {
+        server.log('info', 'Server running at: ' + server.info.uri);
+    });
+});
