@@ -2,11 +2,15 @@
  * Created by Luke on 8/14/2015.
  */
 var gulp = require('gulp');
+var uglify = require('gulp-uglify');
+var watch = require('gulp-watch');
 
+//High level path
 var path = {
     assets: "server/public/assets/",
     vendors: "server/public/vendors/"
 };
+
 //Location of our angular modules we wish to copy
 var angularSources = [
     'node_modules/angular/angular.min.js',
@@ -16,45 +20,38 @@ var angularSources = [
     'node_modules/angular-material/angular-material.min.css'
 ];
 
-//lint task
-gulp.task('lint', function(){
-    return gulp.src('client/scripts/app.js')
-        .pipe(jshint())
-        .pipe(jshint.reporter('default'));
-});
-
-//compile Sass
-//saves in css directory
-gulp.task('sass', function(){
-    return gulp.src('scss/*.scss')
-        .pipe(sass())
-        .pipe(gulp.dest('css'));
-});
-
-//concat and minify js
-//all js files in /js directory are put together, saved to /dist, then minified, renamed, saved in dist alongside concatenated file
+//Mmmmm ya gurl get minified
 gulp.task('scripts', function(){
     return gulp.src('client/scripts/app.js')
-        //probably not needed
-        //.pipe(gulp.dest('dist'))
-        .pipe(rename('app.min.js'))
         .pipe(uglify())
-        .pipe(gulp.dest('server/public/assets/scripts'));
+        .pipe(gulp.dest(path.assets.concat("scripts")));
 });
 
-gulp.task('html', function(){
-    return gulp.src('client/views/index.html')
-        .pipe(gulp.dest('server/public/assets/views'))
-});
-//watch functionality
-//as you write code, this listens for changes and automatically runs said tasks
-gulp.task('watch', function(){
-    gulp.watch('client/scripts/app.js', ['lint', 'scripts']);
-    gulp.watch('scss/*.scss',['sass']);
-    gulp.watch('client/views/index.html', ['html']);
+//Stylish babes yo
+gulp.task('styles', function() {
+    return gulp.src('client/styles/*')
+        .pipe(gulp.dest(path.assets.concat("styles")));
 });
 
-//default task
-//all of these run when you enter gulp
-gulp.task('default', ['lint','sass', 'scripts', 'watch']);
+//Ya look at dat view right thur
+gulp.task('html', function() {
+    return gulp.src('client/views/*')
+        .pipe(gulp.dest(path.assets.concat("views")));
+});
+
+//Angular all over the place
+gulp.task('angular', function() {
+    return gulp.src(angularSources)
+        .pipe(gulp.dest(path.vendors.concat("angular")));
+});
+
+//Who watches the watch task?
+gulp.task('watch', function() {
+    gulp.watch('client/scripts/app.js', ['scripts']);
+    gulp.watch('client/styles/*', ['styles']);
+    gulp.watch('client/views/*', ['html']);
+});
+
+//Task registration
+gulp.task('default', ['scripts', 'styles', 'html', 'angular', 'watch']);
 
