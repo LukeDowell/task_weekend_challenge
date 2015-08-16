@@ -3,6 +3,14 @@
  */
 var app = angular.module('myApp', ['ngMaterial']);
 
-app.controller('AppController', ['$scope', function($scope) {
+app.controller('AppController', ['$scope', '$http', function($scope, $http) {
+    $http.post('/tasks', {
+        message: "A basic task"
+    }).then(function(response) {
+        console.log(response);
+    });
 
+    $http.get('/tasks').then(function(response) {
+        console.log(response);
+    });
 }]);

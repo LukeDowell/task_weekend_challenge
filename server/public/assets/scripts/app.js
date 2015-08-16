@@ -1,1 +1,1 @@
-var app=angular.module("myApp",["ngMaterial"]);app.controller("AppController",["$scope",function(p){}]);
+var app=angular.module("myApp",["ngMaterial"]);app.controller("AppController",["$scope","$http",function(o,t){t.post("/tasks",{message:"A basic task"}).then(function(o){console.log(o)}),t.get("/tasks").then(function(o){console.log(o)})}]);

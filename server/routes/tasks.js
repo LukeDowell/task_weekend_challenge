@@ -4,9 +4,46 @@
 var Task = require('../models/task');
 
 module.exports = exports = function(server) {
-    server.log("TaskRoutes", "Task Routes Hit");
+    server.log("TaskRoute", "Task Routes Hit");
 
     exports.get(server);
+    exports.post(server);
+    exports.delete(server);
+};
+
+/**
+ * Posts a new task to the database
+ * @param server
+ */
+exports.post = function(server) {
+    server.route({
+        method: 'POST',
+        path: '/tasks',
+        handler: function(request, reply) {
+            var newTask = new Task({message: request.payload.message, completed: false});
+            newTask.save(function(err, task) {
+                if(err) {
+                    throw err;
+                } else {
+                    reply("Task successfully created");
+                }
+            })
+        }
+    });
+};
+
+/**
+ * Deletes a task
+ * @param server
+ */
+exports.delete = function(server) {
+    server.route({
+        method: 'DELETE',
+        path: '/tasks',
+        handler: function(request, reply) {
+            server.log("TasksRoute", "Deleting task!");
+        }
+    });
 };
 
 /**
@@ -19,9 +56,8 @@ exports.get = function(server) {
         method: 'GET',
         path: '/tasks',
         handler: function(request, reply) {
-            var task = new Task({message: "Some task", completed: false});
-            task.save(function() {
-                reply("Success");
+            Task.find(function(err, tasks) {
+                reply(tasks);
             });
         }
     });
