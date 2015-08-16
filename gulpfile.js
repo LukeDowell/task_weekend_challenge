@@ -29,7 +29,7 @@ gulp.task('scripts', function(){
 
 //Stylish babes yo
 gulp.task('styles', function() {
-    return gulp.src('client/styles/*')
+    return gulp.src('client/styles/**')
         .pipe(gulp.dest(path.assets.concat("styles")));
 });
 
@@ -53,5 +53,5 @@ gulp.task('watch', function() {
 });
 
 //Task registration
-gulp.task('default', ['scripts', 'styles', 'html', 'angular', 'watch']);
+gulp.task('default', ['scripts', 'styles', 'html', 'watch']);
 

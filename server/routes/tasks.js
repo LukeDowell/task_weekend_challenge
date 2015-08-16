@@ -20,6 +20,7 @@ exports.post = function(server) {
         method: 'POST',
         path: '/tasks',
         handler: function(request, reply) {
+            server.log("TaskRoute", "Creating task!");
             var newTask = new Task({message: request.payload.message, completed: false});
             newTask.save(function(err, task) {
                 if(err) {
@@ -33,6 +34,20 @@ exports.post = function(server) {
 };
 
 /**
+ * Updates an element
+ * @param server
+ */
+exports.update = function(server) {
+    server.route({
+        method: 'PUT',
+        path: '/tasks',
+        handler: function(request, reply) {
+            server.log("TaskRoute", "Updating task!");
+        }
+    });
+};
+
+/**
  * Deletes a task
  * @param server
  */
@@ -41,7 +56,7 @@ exports.delete = function(server) {
         method: 'DELETE',
         path: '/tasks',
         handler: function(request, reply) {
-            server.log("TasksRoute", "Deleting task!");
+            server.log("TaskRoute", "Deleting task!");
         }
     });
 };
@@ -56,6 +71,7 @@ exports.get = function(server) {
         method: 'GET',
         path: '/tasks',
         handler: function(request, reply) {
+            server.log("TaskRoute", "Sending all tasks!");
             Task.find(function(err, tasks) {
                 reply(tasks);
             });

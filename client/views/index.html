@@ -9,8 +9,35 @@
     <link rel="stylesheet" href="vendors/angular/angular-material.min.css"/>
     <link rel="stylesheet" href="assets/styles/style.css"/>
 </head>
-<body ng-controller="AppController">
+<body layout="column" ng-controller="AppController">
 
+    <!-- The toolbar toolbar -->
+    <md-toolbar layout="row" layout-align="space-around center">
+        <h1>Task Manager</h1>
+        <!-- Menu Buttons -->
+        <md-fab-speed-dial md-open=isOpen md-direction="left" class='md-scale'>
+            <!-- The trigger button is the main button that shows the other options -->
+            <md-fab-trigger>
+                <md-button class="md-fab md-warn">
+                    <md-icon md-svg-src="assets/img/menu.svg"></md-icon>
+                </md-button>
+            </md-fab-trigger>
+            <!-- The actions define the buttons that will appear when our trigger is pressed -->
+            <md-fab-actions>
+                <md-button aria-label="add" class="md-fab md-raised md-mini">
+                    <md-icon md-svg-src="assets/img/add.svg"></md-icon>
+                </md-button>
+                <md-button aria-label="remove" class="md-fab md-raised md-mini">
+                    <md-icon md-svg-src="assets/img/remove.svg"></md-icon>
+                </md-button>
+            </md-fab-actions>
+        </md-fab-speed-dial>
+    </md-toolbar>
+
+    <!--Our tasks -->
+    <md-content layout="row">
+
+    </md-content>
 
     <!-- BEGIN SCRIPTS -->
     <script src="vendors/angular/angular.min.js"></script>
