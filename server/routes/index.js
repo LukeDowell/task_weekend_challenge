@@ -34,12 +34,10 @@ exports.index = function(server) {
  * @param server
  */
 exports.assets = function(server) {
-    //Assets
     server.route({
         method: 'GET',
         path: '/assets/{param*}',
         handler: function(request, reply) {
-            console.log(request.params.param);
             reply.file('assets/' + request.params.param);
         }
     });
@@ -50,12 +48,10 @@ exports.assets = function(server) {
  * @param server
  */
 exports.vendors = function(server) {
-    //Vendor
     server.route({
         method: 'GET',
         path: '/vendors/{param*}',
         handler: function(request, reply) {
-            console.log(request.params.param);
             reply.file("vendors/" + request.params.param);
         }
     });
