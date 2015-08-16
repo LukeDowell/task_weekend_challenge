@@ -6,7 +6,7 @@ var good = require('good');
 var inert = require('inert');
 var path = require('path');
 var mongoose = require('mongoose');
-var Task = require('./models/task');
+var routes = require('./routes/routes');
 
 //Connect to our database
 var mongoURI = "mongodb://localhost/task_database";
@@ -17,7 +17,6 @@ mongoDB.on('error', function(err) {
         console.log("ლ(ಠ益ಠლ) - DAT ERR: " + err);
     }
 });
-
 mongoDB.once('open', function() {
     console.log('(⌐■_■)CONNECTED TO MONGO(⌐■_■)');
 });
@@ -40,6 +39,7 @@ server.connection({
     port: (process.env.PORT || 5000)
 });
 
+
 //Register good and inert
 server.register([
     {
@@ -59,6 +59,8 @@ server.register([
 
     }
 ], function() {
+    //Registers our routes
+    routes.init(server);
 
     //Starts our server
     //We do this in here in case a plugin takes a long time to register
@@ -68,47 +70,6 @@ server.register([
     });
 });
 
-//Database test
-server.route({
-    method: 'GET',
-    path: '/database',
-    handler: function(request, reply) {
-        var task = new Task({message: "Some task", completed: false});
-        task.save(function() {
-            reply("Success");
-        });
-    }
-});
 
-//Assets
-server.route({
-    method: 'GET',
-    path: '/assets/{param*}',
-    handler: function(request, reply) {
-        console.log(request.params.param);
-        reply.file('assets/' + request.params.param);
-    }
-});
 
-//Vendor
-server.route({
-    method: 'GET',
-    path: '/vendors/{param*}',
-    handler: function(request, reply) {
-        console.log(request.params.param);
-        reply.file("vendors/" + request.params.param);
-    }
-});
 
-//Catch-all route
-server.route({
-    method: 'GET',
-    path: '/{param*}',
-    handler: {
-        directory: {
-            path: "assets/views",
-            index: true,
-            listing: true
-        }
-    }
-});
