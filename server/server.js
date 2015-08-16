@@ -18,7 +18,7 @@ mongoDB.on('error', function(err) {
     }
 });
 mongoDB.once('open', function() {
-    console.log('(⌐■_■)CONNECTED TO MONGO(⌐■_■)');
+    server.log("Database", '(⌐■_■)CONNECTED TO MONGO(⌐■_■)');
 });
 
 //Creates a hapi server
@@ -48,7 +48,6 @@ server.register([
             reporters: [{
                 reporter: require('good-console'),
                 events: {
-                    response: '*',
                     log: '*'
                 }
             }]

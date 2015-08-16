@@ -21,7 +21,7 @@ exports.post = function(server) {
         path: '/tasks',
         handler: function(request, reply) {
             server.log("TaskRoute", "Creating task!");
-            var newTask = new Task({message: request.payload.message, completed: false});
+            var newTask = new Task({author: request.payload.author, note: request.payload.message, completed: false});
             newTask.save(function(err, task) {
                 if(err) {
                     throw err;

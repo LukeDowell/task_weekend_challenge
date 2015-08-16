@@ -3,6 +3,9 @@
  */
 var app = angular.module('myApp', ['ngMaterial']);
 
-app.controller('AppController', ['$scope', '$http', function($scope, $http) {
+app.controller('AppController', ['$scope', '$http', '$mdDialog', function($scope, $http, $mdDialog) {
 
+    $scope.showCreateToolbar = function(event) {
+
+    }
 }]);

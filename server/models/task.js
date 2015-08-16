@@ -4,7 +4,8 @@
 var mongoose = require('mongoose');
 
 var TaskSchema = {
-    message: String,
+    author: String,
+    note: String,
     completed: Boolean
 };
 

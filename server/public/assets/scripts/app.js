@@ -1,1 +1,1 @@
-var app=angular.module("myApp",["ngMaterial"]);app.controller("AppController",["$scope","$http",function(p,a){}]);
+var app=angular.module("myApp",["ngMaterial"]);app.controller("AppController",["$scope","$http","$mdDialog",function(o,a,p){o.showCreateToolbar=function(o){}}]);

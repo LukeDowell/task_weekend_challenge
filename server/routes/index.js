@@ -21,9 +21,7 @@ exports.index = function(server) {
         path: '/{param*}',
         handler: {
             directory: {
-                path: "assets/views",
-                index: true,
-                listing: true
+                path: "assets/views"
             }
         }
     });

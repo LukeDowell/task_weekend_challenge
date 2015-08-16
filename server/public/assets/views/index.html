@@ -12,8 +12,10 @@
 <body layout="column" ng-controller="AppController">
 
     <!-- The toolbar toolbar -->
-    <md-toolbar layout="row" layout-align="space-around center">
+    <md-toolbar layout="row">
         <h1>Task Manager</h1>
+        <!-- This span pushes our menu button all the way to the right, it fills the empty space with itself -->
+        <span flex></span>
         <!-- Menu Buttons -->
         <md-fab-speed-dial md-open=isOpen md-direction="left" class='md-scale'>
             <!-- The trigger button is the main button that shows the other options -->
@@ -24,15 +26,30 @@
             </md-fab-trigger>
             <!-- The actions define the buttons that will appear when our trigger is pressed -->
             <md-fab-actions>
-                <md-button aria-label="add" class="md-fab md-raised md-mini">
+                <!-- Add button, shows our task creation dialog -->
+                <md-button aria-label="add" class="md-fab md-raised md-mini" ng-click="showCreateDialog($event)">
                     <md-icon md-svg-src="assets/img/add.svg"></md-icon>
                 </md-button>
+                <!-- Remove button, deletes all selected tasks -->
                 <md-button aria-label="remove" class="md-fab md-raised md-mini">
                     <md-icon md-svg-src="assets/img/remove.svg"></md-icon>
                 </md-button>
             </md-fab-actions>
         </md-fab-speed-dial>
     </md-toolbar>
+    <!-- Our create task subheader -->
+    <md-subheader class="md-primary" layout="row">
+        <md-content layout-padding layout="row" layout-sm="column">
+            <md-input-container>
+                <label>Title</label>
+                <input ng-model="user.title"/>
+            </md-input-container>
+            <md-input-container>
+                <label>Email</label>
+                <input ng-model="user.email" type="email"/>
+            </md-input-container>
+        </md-content>
+    </md-subheader>
 
     <!--Our tasks -->
     <md-content layout="row">
